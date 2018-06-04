@@ -1,0 +1,8 @@
+{
+  "name": "mono-nve",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://denlly@github.com/denlly/mono-nve.git",
+  "author": "denlly <79107345@qq.com>",
+  "license": "MIT"
+}
