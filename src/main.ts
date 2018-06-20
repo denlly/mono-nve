@@ -1,33 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
-import * as openBrowsers from 'open-browsers';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as config from 'config';
 
+import * as express from 'express';
+
+import { SwaggerHandler } from './handlers/swagger-handler';
+import { HttpHandler } from './handlers/http-handler';
+import { HttpsHandler } from './handlers/https-handler';
+import { NestHandler } from './handlers/nest-handler';
+import { HttpCode } from '@nestjs/common';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const server = express();
+  const app = await NestFactory.create(AppModule, server, {
+    cors: true,
+  });
 
-  // swagger handle begin
-  if (config.get<boolean>('swagger.enable')) {
-    const apiBasePath = config.get<string>('apiBasePath');
-    app.setGlobalPrefix(apiBasePath);
-    const packageBody = require('../package.json');
-    const options = new DocumentBuilder()
-      .setTitle(packageBody.name)
-      .setDescription(packageBody.description)
-      .setVersion(packageBody.version)
-      .setSchemes('https')
-      // .addBearerAuth('Authorization', 'header')
-      .addBearerAuth()
-      .setBasePath(apiBasePath)
-      .build();
-    const document = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('doc', app, document);
-  }
-  await app.listen(3300);
+  new NestHandler(server).app_start(app);
 
-  if (openBrowsers(`http://localhost:3300`)) {
-    console.log('🎉🎉http://localhost:3300 is opened！！');
-  }
+  new SwaggerHandler().app_start(app);
+
+  new HttpHandler(server).app_start(app);
+
+  new HttpsHandler(server).app_start(app);
 }
 bootstrap();
