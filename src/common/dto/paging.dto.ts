@@ -1,14 +1,12 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import {
-    IsNumberString,
-} from 'class-validator';
+import { IsNumberString, IsNumber } from 'class-validator';
 
 export class PagingDto {
-    @IsNumberString()
-    @ApiModelProperty({ example: 0, default: 0 })
-    readonly skip: number;
+  @IsNumber()
+  @ApiModelProperty({ example: 1 })
+  skip: number;
 
-    @IsNumberString()
-    @ApiModelProperty({ example: 20, default: 20})
-    readonly limit: number;
+  @IsNumber()
+  @ApiModelProperty({ example: 10 })
+  limit: number;
 }
