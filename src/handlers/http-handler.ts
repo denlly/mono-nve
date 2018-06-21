@@ -12,7 +12,7 @@ export class HttpHandler {
     this._server = server;
   }
   // 系统开始时候
-  app_start(app: INestApplication) {
+  async app_start(app: INestApplication) {
     const httpPort = config.get<number>('httpPort');
     const host = config.get<string>('host');
     // 同时监听80和443端口

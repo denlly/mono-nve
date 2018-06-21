@@ -15,7 +15,11 @@ export class NestHandler {
     this._server = server;
   }
   // 系统开始时候
-  app_start(app: INestApplication) {}
+  async app_start(app: INestApplication) {
+    const apiBasePath = config.get<string>('apiBasePath');
+    app.setGlobalPrefix(apiBasePath);
+    // [TODO:增加多种组件和中间件]
+  }
 
   // 系统停止时候
   app_stop(app: INestApplication) {}

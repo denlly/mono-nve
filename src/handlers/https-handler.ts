@@ -15,7 +15,7 @@ export class HttpsHandler {
     this._server = server;
   }
   // 系统开始时候
-  app_start(app: INestApplication) {
+  async app_start(app: INestApplication) {
     const httpsPort = config.get<number>('httpsPort');
     const host = config.get<string>('host');
     const httpsOptions = {

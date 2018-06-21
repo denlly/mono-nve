@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export class SwaggerHandler {
   // 系统开始时候
-  app_start(app: INestApplication) {
+  async app_start(app: INestApplication) {
     // swagger handle begin
     if (config.get<boolean>('swagger.enable')) {
       const apiBasePath = config.get<string>('apiBasePath');
