@@ -13,6 +13,7 @@ export class SiteService {
 
   async create(createDto: CreateSiteDto): Promise<Site | undefined> {
     const site = Object.assign(new Site(), createDto);
-    return await this._siteRepository.create(site);
+    const result = await this._siteRepository.insert(site);
+    return Object.assign(site, { keys: result.identifiers });
   }
 }
