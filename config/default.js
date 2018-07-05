@@ -10,6 +10,7 @@ module.exports = {
 
     domain: "localhost",
 
+    cors: true,
     typeorm: {
         type: "postgres",
         host: "localhost",
