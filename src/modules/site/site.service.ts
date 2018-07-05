@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { Repository, FindManyOptions } from 'typeorm';
-
+import { BaseService } from '../../common/base-class/base.service';
 import {
   CreateSiteDto,
   UpdateSiteDto,
@@ -11,10 +11,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Site } from './site.entity';
 import { isNullOrUndefined } from 'util';
 @Injectable()
-export class SiteService {
+export class SiteService extends BaseService<SiteService> {
   constructor(
     @InjectRepository(Site) private readonly _siteRepository: Repository<Site>,
-  ) {}
+  ) {
+    super('SiteService');
+  }
 
   async create(createDto: CreateSiteDto): Promise<Site | undefined> {
     const site = Object.assign(new Site(), createDto);
@@ -24,7 +26,7 @@ export class SiteService {
 
   async findOne(id: number): Promise<Site | undefined> {
     const entity = await this._siteRepository.findOne({ id });
-    console.log(entity);
+    this._logger.log(entity);
     return entity;
   }
 

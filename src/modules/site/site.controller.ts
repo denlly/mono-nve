@@ -23,10 +23,14 @@ import {
   PagingSiteDto,
 } from './dtos/main-site.dto';
 import { SiteService } from './site.service';
+import { BaseController } from '../../common/base-class/base.controller';
+
 @Controller('site')
 @ApiUseTags('site')
-export class SiteController {
-  constructor(private readonly _siteService: SiteService) {}
+export class SiteController extends BaseController<SiteController> {
+  constructor(private readonly _siteService: SiteService) {
+    super('SiteController');
+  }
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
@@ -57,11 +61,14 @@ export class SiteController {
     return await this._siteService.modify(updateSiteDto);
   }
   @Get('all')
+  // @MemberGuards(AuthGuard('bearer'))
   async getAll(@Param() params): Promise<any[]> {
+    this._logger.log('getAll is called', params);
     return await this._siteService.all();
   }
   @Get('paging')
   async paging(@Query() pagingSiteDto: PagingSiteDto): Promise<any[]> {
+    this._logger.log('paging is called', pagingSiteDto);
     return await this._siteService.Paging(pagingSiteDto);
   }
   @Delete(':id')

@@ -1,4 +1,4 @@
-import { BaseEntity } from '../../common/entity/base.entity';
+import { BaseEntity } from '../../common/base-class/base.entity';
 import { Entity, Column } from 'typeorm';
 import { SiteType } from '../../common/constants/site_type.enum';
 
