@@ -4,7 +4,7 @@ import * as config from 'config';
 
 import { MemberModule } from './member/member.module';
 import { SiteModule } from './site/site.module';
-
+import { FileModule } from './file/file.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,6 +22,7 @@ import { SiteModule } from './site/site.module';
     MemberModule,
     SiteModule,
     // ManagerModule,
+    FileModule,
   ],
 })
 export class AppModule implements NestModule {
