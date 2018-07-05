@@ -5,6 +5,7 @@ import * as config from 'config';
 import { MemberModule } from './member/member.module';
 import { SiteModule } from './site/site.module';
 import { FileModule } from './file/file.module';
+import { RedisModule } from './redis/redis.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,6 +20,7 @@ import { FileModule } from './file/file.module';
       subscribers: config.get<string[]>('typeorm.subscribers'),
       logging: config.get<boolean>('typeorm.logging'),
     }),
+    RedisModule,
     MemberModule,
     SiteModule,
     // ManagerModule,
