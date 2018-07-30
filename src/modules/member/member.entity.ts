@@ -1,35 +1,171 @@
 import { BaseEntity } from '../../common/base-class/base.entity';
-import { Entity, Column } from 'typeorm';
-
-@Entity()
+import { Entity, Column, OneToMany, Timestamp } from 'typeorm';
+import { Site } from '../site/site.entity';
+import { EALREADY } from 'constants';
+import { MemberStatus } from '../../common/constants/member_status';
+@Entity('base_member')
 export class Member extends BaseEntity {
-  @Column({
-    type: String,
-    nullable: false,
-    unique: true,
-  })
-  name: string;
+    /**
+     *  账号
+     */
+    @Column({
+        type: String,
+        nullable: false,
+        unique: true,
+        length: 50,
+    })
+    email: string;
 
-  // private int _site_id = 0;
-  // private int _group_id = 0;
-  // private string _user_name = string.Empty;
-  // private string _salt = string.Empty;
-  // private string _password = string.Empty;
-  // private string _mobile = string.Empty;
-  // private string _email = string.Empty;
-  // private string _avatar = string.Empty;
-  // private string _nick_name = string.Empty;
-  // private string _sex = string.Empty;
-  // private DateTime? _birthday;
-  // private string _telphone = string.Empty;
-  // private string _area = string.Empty;
-  // private string _address = string.Empty;
-  // private string _qq = string.Empty;
-  // private string _msn = string.Empty;
-  // private decimal _amount = 0M;
-  // private int _point = 0;
-  // private int _exp = 0;
-  // private int _status = 0;
-  // private DateTime _reg_time = DateTime.Now;
-  // private string _reg_ip = string.Empty;
+    @Column({
+        type: String,
+        nullable: true,
+        length: 50,
+    })
+    mobile: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 200,
+    })
+    password: string;
+
+    /**
+     * 昵称
+     */
+    @Column({
+        type: String,
+        nullable: true,
+        length: 50,
+    })
+    niceName: string;
+
+    // @Column({
+    //   type: String,
+    //   nullable: false,
+    //   unique: true,
+    // })
+    // @OneToMany(type=>Site)
+    // sites: Site[];
+
+    // memberGroup: MemberGroup;
+
+    /**
+     * salt
+     */
+    @Column({
+        type: String,
+        nullable: true,
+        length: 10,
+    })
+    salt: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 50,
+    })
+    telphone: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 50,
+    })
+    avatar: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 2,
+    })
+    gender: string;
+
+    @Column({
+        type: Date,
+        nullable: true,
+    })
+    birthday: Date;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 100,
+    })
+    area: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 100,
+    })
+    address: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 20,
+    })
+    qq: string;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 20,
+    })
+    wx: string;
+
+    /**
+     * 余额
+     */
+    @Column({
+        type: String,
+        nullable: true,
+    })
+    amount: string;
+
+    /**
+     * 积分
+     */
+    @Column({
+        type: 'int',
+        nullable: true,
+    })
+    point: number;
+
+    /**
+     * 经验值
+     */
+    @Column({
+        type: 'int',
+        nullable: true,
+    })
+    experience: number;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 20,
+    })
+    lastLoginIp: string;
+
+    @Column({
+        type: 'timestamp',
+        nullable: true,
+    })
+    lastLoginAt: Date;
+
+    @Column({
+        type: 'int',
+        nullable: true,
+        default: MemberStatus.UnActive,
+    })
+    status: MemberStatus;
+
+    @Column({
+        type: String,
+        nullable: true,
+        length: 20,
+    })
+    registIp: string;
 }

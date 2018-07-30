@@ -1,11 +1,12 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as config from 'config';
-
+// import * as config from 'config';
+const config = require('config');
+import { RedisModule } from './redis/redis.module';
 import { MemberModule } from './member/member.module';
 import { SiteModule } from './site/site.module';
 import { FileModule } from './file/file.module';
-import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -21,6 +22,7 @@ import { RedisModule } from './redis/redis.module';
       logging: config.get<boolean>('typeorm.logging'),
     }),
     RedisModule,
+    AuthModule,
     MemberModule,
     SiteModule,
     // ManagerModule,

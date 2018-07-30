@@ -19,7 +19,7 @@ import {
   IsUrl,
 } from 'class-validator';
 import { PagingDto } from '../../../common/dto/paging.dto';
-import { SiteType } from 'common/constants/site_type.enum';
+import { SiteType } from '../../../common/constants/site_type.enum';
 
 /**
  * 创建DTO

@@ -14,6 +14,7 @@ import {
   FilesInterceptor,
   UploadedFiles,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiUseTags,
@@ -24,6 +25,7 @@ import {
 
 import { FileService } from './file.service';
 import { BaseController } from '../../common/base-class/base.controller';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('file')
 @ApiUseTags('file')
@@ -39,9 +41,11 @@ export class FileController extends BaseController<FileController> {
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ title: 'upload a file!' })
   @Post('upload')
+  @UseGuards(AuthGuard('bearer'))
+  // @UseGuards(AuthGuard('bearer'))
   @UseInterceptors(FilesInterceptor('file'))
   async uploadFile(@UploadedFile() file) {
-    console.log(file);
+    this._logger.log(file);
   }
 
   /**
@@ -52,11 +56,11 @@ export class FileController extends BaseController<FileController> {
   @ApiOperation({ title: 'upload some files!' })
   @UseInterceptors(FilesInterceptor('files'))
   async uploadFiles(@UploadedFiles() files) {
-    console.log(files);
+    this._logger.log(files);
   }
   @Get('doc/:hashname')
   async getDoc(@Param('hashname') hashname: string) {
-    this._logger.log({hashname});
+    this._logger.log({ hashname });
     return { hashname };
   }
   @Get('img/:hashname')

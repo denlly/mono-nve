@@ -1,7 +1,7 @@
 import * as winston from 'winston';
 import { Component, LoggerService } from '@nestjs/common';
-import * as moment from 'moment';
-
+// import * as moment from 'moment';
+const moment = require('moment');
 @Component()
 export class DefaultLoggerService<ClassType> implements LoggerService {
   private _logger;

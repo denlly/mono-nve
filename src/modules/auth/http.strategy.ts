@@ -6,7 +6,10 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class HttpStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
-    super();
+    super({
+      // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // secretOrKey: 'secretKey',
+    });
   }
 
   async validate(token: any, done: Function) {
