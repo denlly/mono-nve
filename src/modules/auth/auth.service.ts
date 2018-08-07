@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { Member } from '../member/member.entity';
 import { RegisterDto } from './dtos/register.dto';
 import { MemberStatus } from '../../common/constants/member_status';
-import { BaseService } from 'common/base-class/base.service';
+import { BaseService } from '../../common/base-class/base.service';
 @Injectable()
 export class AuthService extends BaseService<AuthService> {
     private readonly saltRounds = 10;
@@ -67,11 +67,7 @@ export class AuthService extends BaseService<AuthService> {
      * @param [invitationCode] 邀请码
      * @returns User Entity
      */
-    async createMember(
-        dto: RegisterDto,
-        signUpIp: string,
-        language?: string,
-    ): Promise<Member> {
+    async createMember(dto: RegisterDto, signUpIp: string): Promise<Member> {
         // const repositoryManager = manager ? manager : getManager();
 
         // 如果language没传，默认为英文
@@ -98,8 +94,8 @@ export class AuthService extends BaseService<AuthService> {
             }
         }
         let result;
-        if (dto.email)
-            result = this.memberRepository.save({
+        if (dto.email) {
+            result = await this.memberRepository.save({
                 email: dto.email,
                 mobile: dto.mobile,
                 password: await this.getHash(dto.password),
@@ -107,13 +103,13 @@ export class AuthService extends BaseService<AuthService> {
                 status: MemberStatus.UnActive,
             });
 
-        // 删除不想返回给客户端的内容
-        delete result.password;
-        delete result.activationCode;
-        delete result.expiredAt;
-        delete result.forgetPasswordToken;
-        delete result.forgetPasswordTokenExpiredAt;
-
+            // 删除不想返回给客户端的内容
+            delete result.password;
+            delete result.activationCode;
+            delete result.expiredAt;
+            delete result.forgetPasswordToken;
+            delete result.forgetPasswordTokenExpiredAt;
+        }
         return result;
     }
 

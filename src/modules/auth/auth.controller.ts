@@ -119,7 +119,6 @@ export class AuthController extends BaseController<AuthController> {
     })
     @Post('register')
     public async register(@Body() dto: RegisterDto, @Request() req) {
-        const language = req.acceptsLanguages()[0];
         const signUpIp = req.ip;
         return await this.authService.createMember(dto, signUpIp, null);
     }

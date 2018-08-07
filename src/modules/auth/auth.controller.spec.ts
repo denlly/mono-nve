@@ -24,13 +24,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Member } from '../member/member.entity';
 import { CustomValidationPipe } from '../../common/pipes/custom-validation.pipe';
 import { ErrorCode } from '../../common/constants/error-code';
+import { messages } from '../../../node_modules/@nestjs/core/constants';
+import { RegisterDto } from './dtos/register.dto';
+import { LoginDto } from './dtos/login.dto';
 
 const server = express();
 server.use(bodyParser.json());
 
 describe('AuthController', () => {
-    const account = 'omonjs@gmail.com';
-    const password = '@1234567890';
+    const member_register = {
+        email: 'omonjs@gmail.com',
+        mobile: '@1234567890',
+        password: '@1234567890',
+    };
+    const member_login = {
+        account: 'omonjs@gmail.com',
+        password: '@1234567890',
+    };
     const cache = [];
     const apiBasePath = config.get<string>('apiBasePath');
     // 所有测试开始前清除user表数据
@@ -59,7 +69,7 @@ describe('AuthController', () => {
             await getConnection()
                 .createQueryRunner()
                 .query(
-                    `DELETE FROM "base_member" where 'id' in (${cache.join(
+                    `DELETE FROM "base_member" where "id" in (${cache.join(
                         ',',
                     )})`,
                 );
@@ -69,12 +79,17 @@ describe('AuthController', () => {
     it('POST /api/auth/login 404 登陆失败，用户不存在', async () => {
         const res = await request(server)
             .post(`/${apiBasePath}/auth/login`)
-            .send({ account, password })
+            .send(member_login as LoginDto)
             .expect(HttpStatus.BAD_REQUEST);
         expect(res.body.message).toBe(ErrorCode.AUTH_MEMBER_NOT_FOUND_ERROR);
     });
 
     it('POST /api/auth/register 201 注册成功', async () => {
-        const res = await request(server).post('');
+        const res = await request(server)
+            .post(`/${apiBasePath}/auth/register`)
+            .send(member_register as RegisterDto)
+            .expect(HttpStatus.CREATED);
+        expect(res.body.email).toBe(member_register.email);
+        cache.push(res.body.id);
     });
 });
