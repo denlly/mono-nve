@@ -16,7 +16,7 @@ export abstract class BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    // 逻辑删除标记[0为有效数据，1为逻辑删除]
+    // 逻辑删除标记[0为有效数据，1为无效数据]
     @ApiModelProperty({ type: Number })
     @Column({ type: 'bool', default: false })
     dr: number;
